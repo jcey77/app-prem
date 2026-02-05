@@ -3,40 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sheyya store - full features</title>
+    <title>sheyya store - updated list</title>
     <style>
         :root { --primary: #6C5CE7; --bg: #F0F2F5; --border: #222; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; margin: 0; }
-        
-        /* ADMIN PANEL */
         #admin-panel { display: none; width: 100%; max-width: 450px; background: #fff; border: 3px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 5px 5px 0px var(--border); box-sizing: border-box; position: relative; z-index: 3000; }
         .admin-section { border-top: 2px solid #eee; margin-top: 10px; padding-top: 10px; font-size: 0.8em; }
-        .list-item-admin { display: flex; justify-content: space-between; background: #f9f9f9; padding: 5px 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ddd; align-items: center; }
-        .btn-del { background: #ff4d4d; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; }
-
-        /* TABS */
+        .admin-input { width: 100%; padding: 8px; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.9em; }
         .tab-container { display: flex; width: 100%; max-width: 450px; gap: 10px; margin-bottom: 15px; }
         .tab-btn { flex: 1; padding: 12px; border: 2px solid var(--border); border-radius: 12px; font-weight: bold; cursor: pointer; background: white; box-shadow: 4px 4px 0px var(--border); }
         .tab-btn.active { background: var(--primary); color: white; transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--border); }
-
         .container { width: 100%; max-width: 450px; background: white; border: 3px solid var(--border); border-radius: 20px; padding: 25px; box-shadow: 10px 10px 0px var(--border); box-sizing: border-box; position: relative; }
         #tutup-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 500; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-weight: bold; color: #ff4d4d; border-radius: 20px; }
-
         .store-name { text-align: center; font-size: 1.6em; font-weight: 900; color: var(--primary); text-transform: lowercase; margin: 0; text-shadow: 2px 2px 0px var(--border); }
         .subtitle { text-align: center; font-size: 0.8em; color: #555; margin-bottom: 20px; border-bottom: 2px dashed #ccc; padding-bottom: 15px; }
-        
         label { font-weight: bold; font-size: 0.85em; display: block; margin-bottom: 5px; }
         select, input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid var(--border); border-radius: 10px; box-sizing: border-box; outline: none; background: white; }
-        
         .price-box { background: #fdfdfd; border: 2px solid var(--border); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
-        .price-val { font-size: 1.8em; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
-
-        /* PAYMENT BOX */
+        .price-val { font-size: 1.8em; font-weight: 800; color: var(--primary); }
+        .disc-label { font-size: 0.75em; color: #2ecc71; font-weight: bold; display: none; margin-bottom: 5px; }
         .pay-info { font-size: 0.75em; background: #eee; padding: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ccc; }
-        .btn-copy { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.8em; }
-
+        .btn-copy { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .btn-order { width: 100%; background: var(--primary); color: white; border: 2px solid var(--border); padding: 18px; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #3b2e96; }
-
         #invoice-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 5000; justify-content: center; align-items: center; padding: 20px; }
         .invoice-card { background: white; border: 3px solid var(--border); border-radius: 15px; width: 100%; max-width: 350px; padding: 20px; box-shadow: 10px 10px 0px var(--border); }
     </style>
@@ -45,39 +33,26 @@
 
 <div id="admin-panel">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <strong>🛠️ FULL ADMIN CONTROL</strong>
+        <strong>🛠️ ADMIN SHEYYA</strong>
         <button onclick="document.getElementById('admin-panel').style.display='none'">X</button>
     </div>
-    
     <div class="admin-section">
-        <label>Atur Nomor Pembayaran:</label>
-        <input type="text" id="admin-dana" placeholder="Nomor DANA" onkeyup="updatePayAdmin()" style="padding:8px; margin-bottom:5px;">
-        <input type="text" id="admin-gopay" placeholder="Nomor GOPAY" onkeyup="updatePayAdmin()" style="padding:8px; margin-bottom:5px;">
-        <div style="font-size: 0.9em;">
-            Aktifkan: 
-            <button onclick="setActivePay('DANA')">DANA</button>
-            <button onclick="setActivePay('GOPAY')">GOPAY</button>
+        <label>Kode Promo:</label>
+        <div style="display:flex; gap:5px;">
+            <input type="text" id="new-promo-code" class="admin-input" placeholder="Kode">
+            <input type="number" id="new-promo-val" class="admin-input" placeholder="Rp">
+            <button onclick="addPromo()" style="padding:0 10px; background:var(--primary); color:white; border:none; border-radius:5px;">+</button>
         </div>
+        <div id="promo-list-admin" style="margin-top:5px; max-height:50px; overflow-y:auto;"></div>
     </div>
-
     <div class="admin-section">
-        <label>Tambah Produk/Paket:</label>
-        <select id="new-prod-tab" onchange="renderAdminUI()" style="padding:5px; height:35px; margin-bottom:5px;">
-            <option value="app">📱 APPS</option>
-            <option value="kebsos">🚀 KEBSOS</option>
-        </select>
-        <select id="select-existing-cat" style="padding:5px; height:35px; margin-bottom:5px;"><option value="NEW">-- BUAT KATEGORI BARU --</option></select>
-        <input type="text" id="new-prod-cat" placeholder="Nama Kategori Baru" style="padding:8px; margin-bottom:5px;">
-        <input type="text" id="new-prod-name" placeholder="Nama Paket" style="padding:8px; margin-bottom:5px;">
-        <input type="number" id="new-prod-price" placeholder="Harga" style="padding:8px; margin-bottom:5px;">
-        <button onclick="addNewProduct()" style="width:100%; background:#2ecc71; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">SIMPAN</button>
+        <label>Nomor Bayar:</label>
+        <input type="text" id="admin-dana" class="admin-input" placeholder="DANA" onkeyup="updatePayAdmin()">
     </div>
-
     <div class="admin-section">
         <label><input type="checkbox" id="status-toggle" onchange="toggleLayanan()"> ⛔ TUTUP TOKO</label>
-        <div id="stock-manager" style="max-height:80px; overflow-y:auto; border:1px solid #eee; padding:5px; margin-top:5px;"></div>
     </div>
-    <button onclick="resetData()" style="width:100%; background:#ff4d4d; color:white; border:none; padding:5px; margin-top:10px; border-radius:5px; font-size:0.7em; cursor:pointer;">⚠️ RESET DATA</button>
+    <button onclick="resetData()" style="width:100%; background:#ff4d4d; color:white; border:none; padding:8px; border-radius:5px; margin-top:10px; cursor:pointer;">RESET SEMUA PRODUK</button>
 </div>
 
 <div class="tab-container">
@@ -88,7 +63,7 @@
 <div class="container">
     <div id="tutup-overlay">😴<br>SHEY SEDANG ISTIRAHAT</div>
     <div class="store-name">sheyya store</div>
-    <p class="subtitle" id="display-subtitle">Official App Premium</p>
+    <p class="subtitle">Official App Premium & Social Media Booster</p>
 
     <label>📺 Pilih Layanan</label>
     <select id="category" onchange="updateService()"></select>
@@ -97,9 +72,10 @@
     <select id="service" onchange="updatePrice()"></select>
 
     <div class="price-box">
+        <div id="disc-text" class="disc-label">KODE PROMO AKTIF!</div>
         <div id="display-price" class="price-val">Rp 0</div>
         <div class="pay-info">
-            <span>💳 <b id="pay-label">DANA</b>: <span id="pay-num">0895324866749</span></span>
+            <span>💳 <b>DANA</b>: <span id="pay-num">0895324866749</span></span>
             <button class="btn-copy" onclick="copyPay()">SALIN</button>
         </div>
     </div>
@@ -113,99 +89,86 @@
 <div id="invoice-modal">
     <div class="invoice-card">
         <div id="inv-content" style="font-size:0.85em; line-height:1.8;"></div>
-        <button class="btn-order" onclick="sendToWA()" style="margin-top:15px; padding:12px;">KIRIM KE WHATSAPP</button>
-        <button onclick="document.getElementById('invoice-modal').style.display='none'" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Batal</button>
+        <button class="btn-order" onclick="sendToWA()" style="margin-top:15px;">KIRIM KE WHATSAPP</button>
+        <button onclick="document.getElementById('invoice-modal').style.display='none'" style="width:100%; border:none; color:gray; background:none; cursor:pointer; margin-top:10px;">Batal</button>
     </div>
 </div>
 
 <script>
-// DATA AWAL
+// LIST PRODUK BARU SESUAI PERMINTAAN
 const defaultApp = {
     "Netflix": [{name: "1p2u", price: 26200}, {name: "1p1u", price: 35200}, {name: "1 Minggu", price: 15600}],
-    "Capcut": [{name: "Sharing 1 Bln Promo", price: 4300}, {name: "Private 1 Bln", price: 8320}],
-    "Viu": [{name: "Premium Lifetime", price: 2500}]
+    "Viu": [{name: "Premium Lifetime", price: 2500}],
+    "Youku": [{name: "Sharing 1 Bulan", price: 11340}],
+    "Prime Video": [{name: "Private 1 Bulan", price: 8200}],
+    "Capcut": [{name: "Sharing 1 Bulan Promo", price: 4300}, {name: "Sharing 1 Bulan", price: 5700}, {name: "Sharing 6 Bulan", price: 9300}, {name: "Sharing 12 Bulan", price: 16200}, {name: "Private 1 Bulan", price: 8320}, {name: "Private 6 Bulan", price: 18880}, {name: "Private 12 Bulan", price: 32500}],
+    "Canva": [{name: "Member 1 Bulan", price: 4000}, {name: "Member 1 Tahun", price: 6200}, {name: "Owner 1 Bulan", price: 14880}, {name: "Owner 1 Tahun", price: 30400}],
+    "Bstation": [{name: "Sharing 1 Bulan", price: 7000}, {name: "Private 1 Bulan", price: 32000}],
+    "YouTube": [{name: "Indplan 1 Bulan", price: 15300}],
+    "WeTV": [{name: "Sharing 1 Bulan 8u", price: 6000}, {name: "Sharing 1 Bulan 5u", price: 10000}, {name: "Private 1 Bulan", price: 23000}],
+    "Vidio": [{name: "Platinum Sharing", price: 24000}, {name: "Platinum Private", price: 37000}],
+    "Alight Motion": [{name: "Private 1 Tahun", price: 2500}, {name: "Private 2 Tahun", price: 5000}],
+    "Picsart": [{name: "Sharing 1 Bulan", price: 5000}, {name: "Private 1 Bulan", price: 8320}],
+    "Crunchyroll": [{name: "Sharing 35 Hari", price: 8000}],
+    "HBO Max": [{name: "Sharing 1 Bulan", price: 17000}, {name: "Standard Private 1 Bulan", price: 80000}],
+    "VSCO": [{name: "Plus Android iOS 1 Tahun", price: 8000}]
 };
-const defaultKebsos = { "TikTok Followers": [{name: "100 Followers", price: 3950}] };
 
-let dataApp = JSON.parse(localStorage.getItem('shey_app_v3')) || defaultApp;
-let dataKebsos = JSON.parse(localStorage.getItem('shey_kebsos_v3')) || defaultKebsos;
-let payData = JSON.parse(localStorage.getItem('shey_pay')) || { active: 'DANA', dana: '0895324866749', gopay: '0895324866749' };
+const defaultKebsos = {
+    "WA Channel": [{name: "10 Member", price: 1000}, {name: "100 Member", price: 10000}, {name: "500 Member", price: 50000}, {name: "1000 Member", price: 100000}, {name: "2000 Member", price: 200000}, {name: "3000 Member", price: 300000}],
+    "TikTok Followers": [{name: "100 Followers", price: 3950}, {name: "500 Followers", price: 19750}, {name: "1000 Followers", price: 39500}, {name: "2000 Followers", price: 79000}, {name: "3000 Followers", price: 118500}, {name: "4000 Followers", price: 158000}],
+    "Instagram Like": [{name: "100 Like", price: 1000}, {name: "500 Like", price: 5000}, {name: "1000 Like", price: 10000}, {name: "2000 Like", price: 20000}, {name: "3000 Like", price: 30000}, {name: "4000 Like", price: 40000}, {name: "5000 Like", price: 50000}],
+    "Instagram Followers": [{name: "100 Followers", price: 5247}, {name: "500 Followers", price: 26235}, {name: "1000 Followers", price: 52470}, {name: "2000 Followers", price: 104940}, {name: "3000 Followers", price: 157410}, {name: "4000 Followers", price: 209880}],
+    "TikTok Views": [{name: "100 View", price: 30}, {name: "500 View", price: 150}, {name: "1000 View", price: 300}, {name: "2000 View", price: 600}, {name: "3000 View", price: 900}, {name: "4000 View", price: 1200}, {name: "5000 View", price: 1500}]
+};
+
+let dataApp = JSON.parse(localStorage.getItem('shey_app_v8')) || defaultApp;
+let dataKebsos = JSON.parse(localStorage.getItem('shey_kebsos_v8')) || defaultKebsos;
+let promos = JSON.parse(localStorage.getItem('shey_promo_v8')) || { "DISKONSHEY": 1000 };
+let payData = JSON.parse(localStorage.getItem('shey_pay_v8')) || { dana: '0895324866749' };
 let currentTab = 'app';
+let currentDisc = 0;
 
 function checkCodes() {
-    const input = document.getElementById('redeem-code').value.toUpperCase();
-    if(input === "SHEYYA221") {
+    const val = document.getElementById('redeem-code').value.toUpperCase();
+    if(val === "SHEYYA221") {
         document.getElementById('admin-panel').style.display = "block";
-        document.getElementById('redeem-code').value = "";
-        document.getElementById('admin-dana').value = payData.dana;
-        document.getElementById('admin-gopay').value = payData.gopay;
         renderAdminUI();
+    } else if (promos[val]) {
+        currentDisc = promos[val];
+        document.getElementById('disc-text').style.display = "block";
+        updatePrice();
+    } else {
+        currentDisc = 0;
+        document.getElementById('disc-text').style.display = "none";
+        updatePrice();
     }
 }
 
 function updatePayAdmin() {
     payData.dana = document.getElementById('admin-dana').value;
-    payData.gopay = document.getElementById('admin-gopay').value;
-    savePay();
-}
-
-function setActivePay(type) {
-    payData.active = type;
-    savePay();
-    alert("Metode pembayaran diubah ke " + type);
-}
-
-function savePay() {
-    localStorage.setItem('shey_pay', JSON.stringify(payData));
-    document.getElementById('pay-label').innerText = payData.active;
-    document.getElementById('pay-num').innerText = payData.active === 'DANA' ? payData.dana : payData.gopay;
-}
-
-function copyPay() {
-    const num = document.getElementById('pay-num').innerText;
-    navigator.clipboard.writeText(num).then(() => alert("Nomor " + payData.active + " berhasil disalin!"));
-}
-
-// FUNGSI INTI LAINNYA
-function addNewProduct() {
-    const tab = document.getElementById('new-prod-tab').value;
-    const existingCat = document.getElementById('select-existing-cat').value;
-    const newCatInput = document.getElementById('new-prod-cat').value.trim();
-    const name = document.getElementById('new-prod-name').value.trim();
-    const price = parseInt(document.getElementById('new-prod-price').value);
-    let finalCat = (existingCat === "NEW") ? newCatInput : existingCat;
-    if(!finalCat || !name || !price) return alert("Lengkapi data!");
-    let targetData = (tab === 'app') ? dataApp : dataKebsos;
-    if(!targetData[finalCat]) targetData[finalCat] = [];
-    targetData[finalCat].push({name: name, price: price});
-    saveAndRefresh();
-}
-
-function saveAndRefresh() {
-    localStorage.setItem('shey_app_v3', JSON.stringify(dataApp));
-    localStorage.setItem('shey_kebsos_v3', JSON.stringify(dataKebsos));
-    init(); renderAdminUI();
+    localStorage.setItem('shey_pay_v8', JSON.stringify(payData));
+    document.getElementById('pay-num').innerText = payData.dana;
 }
 
 function renderAdminUI() {
-    const tab = document.getElementById('new-prod-tab').value;
-    const data = (tab === 'app') ? dataApp : dataKebsos;
-    const sel = document.getElementById('select-existing-cat');
-    sel.innerHTML = '<option value="NEW">-- BUAT KATEGORI BARU --</option>';
-    Object.keys(data).forEach(cat => sel.add(new Option(cat, cat)));
-    const stockEl = document.getElementById('stock-manager');
-    stockEl.innerHTML = "<b>Kelola Kategori:</b><br>";
-    Object.keys(data).forEach(cat => {
-        stockEl.innerHTML += `<div class="list-item-admin"><span>${cat}</span><button class="btn-del" onclick="deleteCat('${cat}')">Hapus</button></div>`;
-    });
+    const pList = document.getElementById('promo-list-admin');
+    pList.innerHTML = "";
+    for(let k in promos) pList.innerHTML += `<div style="font-size:0.8em;">${k} (-${promos[k]}) <button onclick="delPromo('${k}')">x</button></div>`;
 }
 
-function deleteCat(cat) {
-    if(confirm("Hapus "+cat+"?")) {
-        if(document.getElementById('new-prod-tab').value === 'app') delete dataApp[cat];
-        else delete dataKebsos[cat];
-        saveAndRefresh();
-    }
+function addPromo() {
+    const c = document.getElementById('new-promo-code').value.toUpperCase();
+    const v = parseInt(document.getElementById('new-promo-val').value);
+    if(c && v) { promos[c] = v; localStorage.setItem('shey_promo_v8', JSON.stringify(promos)); renderAdminUI(); }
+}
+
+function delPromo(c) { delete promos[c]; localStorage.setItem('shey_promo_v8', JSON.stringify(promos)); renderAdminUI(); }
+
+function updatePrice() {
+    let base = parseInt(document.getElementById('service').value) || 0;
+    let final = Math.max(0, base - currentDisc);
+    document.getElementById('display-price').innerText = "Rp " + final.toLocaleString('id-ID');
 }
 
 function switchTab(t) {
@@ -216,47 +179,43 @@ function switchTab(t) {
 }
 
 function init() {
-    const data = currentTab === 'app' ? dataApp : dataKebsos;
+    const data = (currentTab === 'app') ? dataApp : dataKebsos;
     const catEl = document.getElementById('category');
     catEl.innerHTML = '<option value="">-- Pilih Layanan --</option>';
-    Object.keys(data).forEach(cat => catEl.add(new Option(cat, cat)));
-    savePay();
+    Object.keys(data).forEach(k => catEl.add(new Option(k, k)));
+    document.getElementById('pay-num').innerText = payData.dana;
+    updateService();
 }
 
 function updateService() {
-    const data = currentTab === 'app' ? dataApp : dataKebsos;
+    const data = (currentTab === 'app') ? dataApp : dataKebsos;
     const cat = document.getElementById('category').value;
-    const servEl = document.getElementById('service');
-    servEl.innerHTML = '<option value="">-- Pilih Paket --</option>';
-    if(cat) data[cat].forEach(i => servEl.add(new Option(i.name, i.price)));
+    const sEl = document.getElementById('service');
+    sEl.innerHTML = '<option value="">-- Pilih Paket --</option>';
+    if(cat) data[cat].forEach(i => sEl.add(new Option(i.name, i.price)));
     updatePrice();
 }
 
-function updatePrice() {
-    let base = parseInt(document.getElementById('service').value) || 0;
-    document.getElementById('display-price').innerText = "Rp " + base.toLocaleString('id-ID');
-}
+function copyPay() { navigator.clipboard.writeText(document.getElementById('pay-num').innerText).then(() => alert("Disalin!")); }
+function toggleLayanan() { document.getElementById('tutup-overlay').style.display = document.getElementById('status-toggle').checked ? "flex" : "none"; }
 
 function generateInvoice() {
     const n = document.getElementById('buyer-name').value;
     const c = document.getElementById('category').value;
     const s = document.getElementById('service').options[document.getElementById('service').selectedIndex]?.text;
-    if(!n || !c || !s || s.includes("--")) return alert("Data belum lengkap!");
-    document.getElementById('inv-content').innerHTML = `<b>STRUK ORDER</b><br>Nama: ${n}<br>Produk: ${c}<br>Paket: ${s}<br>Bayar ke: ${payData.active}<br>Total: ${document.getElementById('display-price').innerText}`;
+    if(!n || !c || !s || s.includes("--")) return alert("Lengkapi data!");
+    document.getElementById('inv-content').innerHTML = `<b>STRUK ORDER</b><br>Nama: ${n}<br>Produk: ${c}<br>Paket: ${s}<br>Total: ${document.getElementById('display-price').innerText}`;
     document.getElementById('invoice-modal').style.display = "flex";
 }
 
 function sendToWA() {
-    const text = `*ORDER BARU - SHEYYA STORE*%0ANama: ${document.getElementById('buyer-name').value}%0AProduk: ${document.getElementById('category').value}%0ATotal: ${document.getElementById('display-price').innerText}%0AMetode: ${payData.active}`;
+    const text = `*ORDER BARU*%0ANama: ${document.getElementById('buyer-name').value}%0AProduk: ${document.getElementById('category').value}%0APaket: ${document.getElementById('service').options[document.getElementById('service').selectedIndex].text}%0ATotal: ${document.getElementById('display-price').innerText}`;
     window.open(`https://wa.me/62895324866749?text=${text}`);
 }
 
-function toggleLayanan() {
-    document.getElementById('tutup-overlay').style.display = document.getElementById('status-toggle').checked ? "flex" : "none";
-}
+function resetData() { if(confirm("Reset semua list?")) { localStorage.clear(); location.reload(); } }
 
 init();
 </script>
 </body>
 </html>
-
