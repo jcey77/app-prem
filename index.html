@@ -3,29 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sheyya store - updated list</title>
+    <title>sheyya store - full version v3</title>
     <style>
         :root { --primary: #6C5CE7; --bg: #F0F2F5; --border: #222; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; margin: 0; }
-        #admin-panel { display: none; width: 100%; max-width: 450px; background: #fff; border: 3px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 5px 5px 0px var(--border); box-sizing: border-box; position: relative; z-index: 3000; }
-        .admin-section { border-top: 2px solid #eee; margin-top: 10px; padding-top: 10px; font-size: 0.8em; }
-        .admin-input { width: 100%; padding: 8px; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.9em; }
+        
+        #admin-panel { display: none; width: 100%; max-width: 450px; background: #fff; border: 3px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 5px 5px 0px var(--border); box-sizing: border-box; z-index: 9999; }
+        .admin-section { border-top: 2px solid #eee; margin-top: 10px; padding-top: 10px; }
+        .admin-input { width: 100%; padding: 10px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 0.9em; }
+
         .tab-container { display: flex; width: 100%; max-width: 450px; gap: 10px; margin-bottom: 15px; }
         .tab-btn { flex: 1; padding: 12px; border: 2px solid var(--border); border-radius: 12px; font-weight: bold; cursor: pointer; background: white; box-shadow: 4px 4px 0px var(--border); }
         .tab-btn.active { background: var(--primary); color: white; transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--border); }
+
         .container { width: 100%; max-width: 450px; background: white; border: 3px solid var(--border); border-radius: 20px; padding: 25px; box-shadow: 10px 10px 0px var(--border); box-sizing: border-box; position: relative; }
         #tutup-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 500; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-weight: bold; color: #ff4d4d; border-radius: 20px; }
-        .store-name { text-align: center; font-size: 1.6em; font-weight: 900; color: var(--primary); text-transform: lowercase; margin: 0; text-shadow: 2px 2px 0px var(--border); }
+
+        .store-name { text-align: center; font-size: 1.6em; font-weight: 900; color: var(--primary); margin: 0; text-shadow: 2px 2px 0px var(--border); }
         .subtitle { text-align: center; font-size: 0.8em; color: #555; margin-bottom: 20px; border-bottom: 2px dashed #ccc; padding-bottom: 15px; }
+        
         label { font-weight: bold; font-size: 0.85em; display: block; margin-bottom: 5px; }
-        select, input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid var(--border); border-radius: 10px; box-sizing: border-box; outline: none; background: white; }
+        select, input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid var(--border); border-radius: 10px; box-sizing: border-box; outline: none; }
+        
         .price-box { background: #fdfdfd; border: 2px solid var(--border); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
-        .price-val { font-size: 1.8em; font-weight: 800; color: var(--primary); }
+        .price-val { font-size: 1.8em; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
         .disc-label { font-size: 0.75em; color: #2ecc71; font-weight: bold; display: none; margin-bottom: 5px; }
-        .pay-info { font-size: 0.75em; background: #eee; padding: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ccc; }
+        
+        .pay-selector { display: flex; gap: 5px; margin-bottom: 10px; justify-content: center; }
+        .pay-method { padding: 5px 15px; border: 1px solid var(--border); border-radius: 20px; font-size: 0.75em; cursor: pointer; font-weight: bold; background: #eee; }
+        .pay-method.active { background: var(--primary); color: white; }
+
+        .pay-info { font-size: 0.8em; background: #fff; padding: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 2px solid #eee; }
         .btn-copy { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-order { width: 100%; background: var(--primary); color: white; border: 2px solid var(--border); padding: 18px; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #3b2e96; }
-        #invoice-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 5000; justify-content: center; align-items: center; padding: 20px; }
+
+        .btn-order { width: 100%; background: var(--primary); color: white; border: 2px solid var(--border); padding: 18px; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #3b2e96; margin-top: 10px; }
+
+        #invoice-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
         .invoice-card { background: white; border: 3px solid var(--border); border-radius: 15px; width: 100%; max-width: 350px; padding: 20px; box-shadow: 10px 10px 0px var(--border); }
     </style>
 </head>
@@ -33,26 +46,39 @@
 
 <div id="admin-panel">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <strong>🛠️ ADMIN SHEYYA</strong>
+        <strong>🛠️ ADMIN PANEL SHEYYA</strong>
         <button onclick="document.getElementById('admin-panel').style.display='none'">X</button>
     </div>
+
     <div class="admin-section">
-        <label>Kode Promo:</label>
+        <label>Set Nomor Pembayaran:</label>
+        <input type="text" id="admin-dana" class="admin-input" placeholder="Nomor DANA" onkeyup="saveSettings()">
+        <input type="text" id="admin-gopay" class="admin-input" placeholder="Nomor GOPAY" onkeyup="saveSettings()">
+    </div>
+
+    <div class="admin-section">
+        <label>Buat Kode Promo (Redeem):</label>
         <div style="display:flex; gap:5px;">
-            <input type="text" id="new-promo-code" class="admin-input" placeholder="Kode">
-            <input type="number" id="new-promo-val" class="admin-input" placeholder="Rp">
-            <button onclick="addPromo()" style="padding:0 10px; background:var(--primary); color:white; border:none; border-radius:5px;">+</button>
+            <input type="text" id="promo-code-input" class="admin-input" placeholder="KODE (Misal: SHEY10)">
+            <input type="number" id="promo-val-input" class="admin-input" placeholder="Potong Rp">
+            <button onclick="addPromo()" style="background:green; color:white; border:none; border-radius:8px; padding:0 10px; height:40px;">+</button>
         </div>
-        <div id="promo-list-admin" style="margin-top:5px; max-height:50px; overflow-y:auto;"></div>
+        <div id="admin-promo-list" style="max-height:80px; overflow-y:auto; margin-top:5px; font-size:0.8em;"></div>
     </div>
+
     <div class="admin-section">
-        <label>Nomor Bayar:</label>
-        <input type="text" id="admin-dana" class="admin-input" placeholder="DANA" onkeyup="updatePayAdmin()">
+        <label>Tambah Produk Baru:</label>
+        <select id="adm-tab" class="admin-input"><option value="app">📱 APPS</option><option value="kebsos">🚀 KEBSOS</option></select>
+        <input type="text" id="adm-cat" class="admin-input" placeholder="Kategori (Misal: Netflix)">
+        <input type="text" id="adm-name" class="admin-input" placeholder="Nama Paket">
+        <input type="number" id="adm-price" class="admin-input" placeholder="Harga">
+        <button onclick="addProduct()" style="width:100%; background:var(--primary); color:white; border:none; padding:10px; border-radius:8px;">SIMPAN PRODUK</button>
     </div>
+
     <div class="admin-section">
-        <label><input type="checkbox" id="status-toggle" onchange="toggleLayanan()"> ⛔ TUTUP TOKO</label>
+        <label><input type="checkbox" id="status-toggle" onchange="saveSettings()"> ⛔ TUTUP TOKO</label>
     </div>
-    <button onclick="resetData()" style="width:100%; background:#ff4d4d; color:white; border:none; padding:8px; border-radius:5px; margin-top:10px; cursor:pointer;">RESET SEMUA PRODUK</button>
+    <button onclick="localStorage.clear(); location.reload();" style="width:100%; background:red; color:white; border:none; padding:8px; margin-top:15px; border-radius:8px; font-weight:bold;">RESET TOTAL DATA</button>
 </div>
 
 <div class="tab-container">
@@ -63,7 +89,7 @@
 <div class="container">
     <div id="tutup-overlay">😴<br>SHEY SEDANG ISTIRAHAT</div>
     <div class="store-name">sheyya store</div>
-    <p class="subtitle">Official App Premium & Social Media Booster</p>
+    <p class="subtitle">Premium Apps & Social Media Booster</p>
 
     <label>📺 Pilih Layanan</label>
     <select id="category" onchange="updateService()"></select>
@@ -72,150 +98,198 @@
     <select id="service" onchange="updatePrice()"></select>
 
     <div class="price-box">
-        <div id="disc-text" class="disc-label">KODE PROMO AKTIF!</div>
+        <div id="disc-text" class="disc-label">KODE PROMO BERHASIL!</div>
         <div id="display-price" class="price-val">Rp 0</div>
+        
+        <div class="pay-selector">
+            <div id="m-dana" class="pay-method active" onclick="setPay('dana')">DANA</div>
+            <div id="m-gopay" class="pay-method" onclick="setPay('gopay')">GOPAY</div>
+        </div>
+
         <div class="pay-info">
-            <span>💳 <b>DANA</b>: <span id="pay-num">0895324866749</span></span>
+            <span>💳 <b id="pay-label">DANA</b>: <span id="pay-num">0895324866749</span></span>
             <button class="btn-copy" onclick="copyPay()">SALIN</button>
         </div>
     </div>
 
     <input type="text" id="buyer-name" placeholder="Nama Lengkap Pembeli">
-    <input type="text" id="redeem-code" placeholder="Kode Promo / Sandi Admin" onkeyup="checkCodes()">
+    <input type="text" id="redeem-code" placeholder="Kode Promo / Sandi Admin" onkeyup="checkAccess()">
 
-    <button class="btn-order" onclick="generateInvoice()">ORDER SEKARANG</button>
+    <button class="btn-order" onclick="showInvoice()">ORDER SEKARANG</button>
 </div>
 
 <div id="invoice-modal">
     <div class="invoice-card">
-        <div id="inv-content" style="font-size:0.85em; line-height:1.8;"></div>
-        <button class="btn-order" onclick="sendToWA()" style="margin-top:15px;">KIRIM KE WHATSAPP</button>
-        <button onclick="document.getElementById('invoice-modal').style.display='none'" style="width:100%; border:none; color:gray; background:none; cursor:pointer; margin-top:10px;">Batal</button>
+        <div id="inv-content"></div>
+        <button class="btn-order" onclick="sendToWA()">KIRIM KE WHATSAPP</button>
+        <button onclick="document.getElementById('invoice-modal').style.display='none'" style="width:100%; border:none; background:none; color:gray; margin-top:10px; cursor:pointer;">Batal</button>
     </div>
 </div>
 
 <script>
-// LIST PRODUK BARU SESUAI PERMINTAAN
+// DATA DEFAULT PRODUK
 const defaultApp = {
-    "Netflix": [{name: "1p2u", price: 26200}, {name: "1p1u", price: 35200}, {name: "1 Minggu", price: 15600}],
-    "Viu": [{name: "Premium Lifetime", price: 2500}],
-    "Youku": [{name: "Sharing 1 Bulan", price: 11340}],
-    "Prime Video": [{name: "Private 1 Bulan", price: 8200}],
-    "Capcut": [{name: "Sharing 1 Bulan Promo", price: 4300}, {name: "Sharing 1 Bulan", price: 5700}, {name: "Sharing 6 Bulan", price: 9300}, {name: "Sharing 12 Bulan", price: 16200}, {name: "Private 1 Bulan", price: 8320}, {name: "Private 6 Bulan", price: 18880}, {name: "Private 12 Bulan", price: 32500}],
-    "Canva": [{name: "Member 1 Bulan", price: 4000}, {name: "Member 1 Tahun", price: 6200}, {name: "Owner 1 Bulan", price: 14880}, {name: "Owner 1 Tahun", price: 30400}],
-    "Bstation": [{name: "Sharing 1 Bulan", price: 7000}, {name: "Private 1 Bulan", price: 32000}],
-    "YouTube": [{name: "Indplan 1 Bulan", price: 15300}],
-    "WeTV": [{name: "Sharing 1 Bulan 8u", price: 6000}, {name: "Sharing 1 Bulan 5u", price: 10000}, {name: "Private 1 Bulan", price: 23000}],
-    "Vidio": [{name: "Platinum Sharing", price: 24000}, {name: "Platinum Private", price: 37000}],
-    "Alight Motion": [{name: "Private 1 Tahun", price: 2500}, {name: "Private 2 Tahun", price: 5000}],
-    "Picsart": [{name: "Sharing 1 Bulan", price: 5000}, {name: "Private 1 Bulan", price: 8320}],
-    "Crunchyroll": [{name: "Sharing 35 Hari", price: 8000}],
-    "HBO Max": [{name: "Sharing 1 Bulan", price: 17000}, {name: "Standard Private 1 Bulan", price: 80000}],
-    "VSCO": [{name: "Plus Android iOS 1 Tahun", price: 8000}]
+    "Netflix": [{n:"1p2u", p:26200},{n:"1p1u", p:35200},{n:"1 minggu", p:15600}],
+    "Viu": [{n:"Premium Lifetime", p:2500}],
+    "Youku": [{n:"Sharing 1 Bulan", p:11340}],
+    "Prime Video": [{n:"Private 1 Bulan", p:8200}],
+    "Capcut": [{n:"Sharing 1 Bulan Promo", p:4300},{n:"Sharing 1 Bulan", p:5700},{n:"Sharing 6 Bulan", p:9300},{n:"Sharing 12 Bulan", p:16200},{n:"Private 1 Bulan", p:8320},{n:"Private 6 Bulan", p:18880},{n:"Private 12 Bulan", p:32500}],
+    "Canva": [{n:"Member 1 Bulan", p:4000},{n:"Member 1 Tahun", p:6200},{n:"Owner 1 Bulan", p:14880},{n:"Owner 1 Tahun", p:30400}],
+    "Bstation": [{n:"Sharing 1 Bulan", p:7000},{n:"Private 1 bln", p:32000}],
+    "YouTube": [{n:"Indplan 1 bln", p:15300}],
+    "WeTV": [{n:"Sharing 1 Bulan 8u", p:6000},{n:"Sharing 1 Bulan 5u", p:10000},{n:"Private 1 Bulan", p:23000}],
+    "Vidio": [{n:"Platinum Sharing", p:24000},{n:"Platinum Private", p:37000}],
+    "Alight Motion": [{n:"Private 1 Tahun", p:2500},{n:"Private 2 Tahun", p:5000}],
+    "Picsart": [{n:"Sharing 1 Bulan", p:5000},{n:"Private 1 Bulan", p:8320}],
+    "Crunchyroll": [{n:"Sharing 35 Hari", p:8000}],
+    "HBO Max": [{n:"Sharing 1 Bulan", p:17000},{n:"Standard Private 1 Bulan", p:80000}],
+    "VSCO": [{n:"Plus Android iOS 1 Tahun", p:8000}]
 };
 
 const defaultKebsos = {
-    "WA Channel": [{name: "10 Member", price: 1000}, {name: "100 Member", price: 10000}, {name: "500 Member", price: 50000}, {name: "1000 Member", price: 100000}, {name: "2000 Member", price: 200000}, {name: "3000 Member", price: 300000}],
-    "TikTok Followers": [{name: "100 Followers", price: 3950}, {name: "500 Followers", price: 19750}, {name: "1000 Followers", price: 39500}, {name: "2000 Followers", price: 79000}, {name: "3000 Followers", price: 118500}, {name: "4000 Followers", price: 158000}],
-    "Instagram Like": [{name: "100 Like", price: 1000}, {name: "500 Like", price: 5000}, {name: "1000 Like", price: 10000}, {name: "2000 Like", price: 20000}, {name: "3000 Like", price: 30000}, {name: "4000 Like", price: 40000}, {name: "5000 Like", price: 50000}],
-    "Instagram Followers": [{name: "100 Followers", price: 5247}, {name: "500 Followers", price: 26235}, {name: "1000 Followers", price: 52470}, {name: "2000 Followers", price: 104940}, {name: "3000 Followers", price: 157410}, {name: "4000 Followers", price: 209880}],
-    "TikTok Views": [{name: "100 View", price: 30}, {name: "500 View", price: 150}, {name: "1000 View", price: 300}, {name: "2000 View", price: 600}, {name: "3000 View", price: 900}, {name: "4000 View", price: 1200}, {name: "5000 View", price: 1500}]
+    "WA Channel": [{n:"10 Member", p:1000},{n:"100 Member", p:10000},{n:"500 Member", p:50000},{n:"1000 Member", p:100000},{n:"2000 Member", p:200000},{n:"3000 Member", p:300000}],
+    "TikTok Followers": [{n:"100 Followers", p:3950},{n:"500 Followers", p:19750},{n:"1000 Followers", p:39500},{n:"2000 Followers", p:79000},{n:"3000 Followers", p:118500},{n:"4000 Followers", p:158000}],
+    "Instagram Like": [{n:"100 Like", p:1000},{n:"500 Like", p:5000},{n:"1000 Like", p:10000},{n:"2000 Like", p:20000},{n:"3000 Like", p:30000},{n:"4000 Like", p:40000},{n:"5000 Like", p:50000}],
+    "Instagram Followers": [{n:"100 Followers", p:5247},{n:"500 Followers", p:26235},{n:"1000 Followers", p:52470},{n:"2000 Followers", p:104940},{n:"3000 Followers", p:157410},{n:"4000 Followers", p:209880}],
+    "TikTok Views": [{n:"100 View", p:30},{n:"500 View", p:150},{n:"1000 View", p:300},{n:"2000 View", p:600},{n:"3000 View", p:900},{n:"4000 View", p:1200},{n:"5000 View", p:1500}]
 };
 
-let dataApp = JSON.parse(localStorage.getItem('shey_app_v8')) || defaultApp;
-let dataKebsos = JSON.parse(localStorage.getItem('shey_kebsos_v8')) || defaultKebsos;
-let promos = JSON.parse(localStorage.getItem('shey_promo_v8')) || { "DISKONSHEY": 1000 };
-let payData = JSON.parse(localStorage.getItem('shey_pay_v8')) || { dana: '0895324866749' };
-let currentTab = 'app';
-let currentDisc = 0;
+let dataApp = JSON.parse(localStorage.getItem('sh_app_v3')) || defaultApp;
+let dataKebsos = JSON.parse(localStorage.getItem('sh_keb_v3')) || defaultKebsos;
+let settings = JSON.parse(localStorage.getItem('sh_set_v3')) || { dana:'0895324866749', gopay:'0895324866749', tutup:false };
+let promos = JSON.parse(localStorage.getItem('sh_promo_v3')) || {};
 
-function checkCodes() {
-    const val = document.getElementById('redeem-code').value.toUpperCase();
+let currentTab = 'app';
+let currentPay = 'dana';
+let discVal = 0;
+
+function checkAccess() {
+    let val = document.getElementById('redeem-code').value.toUpperCase();
     if(val === "SHEYYA221") {
         document.getElementById('admin-panel').style.display = "block";
-        renderAdminUI();
+        document.getElementById('admin-dana').value = settings.dana;
+        document.getElementById('admin-gopay').value = settings.gopay;
+        document.getElementById('status-toggle').checked = settings.tutup;
+        renderPromoList();
     } else if (promos[val]) {
-        currentDisc = promos[val];
+        discVal = promos[val];
         document.getElementById('disc-text').style.display = "block";
         updatePrice();
     } else {
-        currentDisc = 0;
+        discVal = 0;
         document.getElementById('disc-text').style.display = "none";
         updatePrice();
     }
 }
 
-function updatePayAdmin() {
-    payData.dana = document.getElementById('admin-dana').value;
-    localStorage.setItem('shey_pay_v8', JSON.stringify(payData));
-    document.getElementById('pay-num').innerText = payData.dana;
-}
-
-function renderAdminUI() {
-    const pList = document.getElementById('promo-list-admin');
-    pList.innerHTML = "";
-    for(let k in promos) pList.innerHTML += `<div style="font-size:0.8em;">${k} (-${promos[k]}) <button onclick="delPromo('${k}')">x</button></div>`;
+function saveSettings() {
+    settings.dana = document.getElementById('admin-dana').value;
+    settings.gopay = document.getElementById('admin-gopay').value;
+    settings.tutup = document.getElementById('status-toggle').checked;
+    localStorage.setItem('sh_set_v3', JSON.stringify(settings));
+    setPay(currentPay);
+    document.getElementById('tutup-overlay').style.display = settings.tutup ? "flex" : "none";
 }
 
 function addPromo() {
-    const c = document.getElementById('new-promo-code').value.toUpperCase();
-    const v = parseInt(document.getElementById('new-promo-val').value);
-    if(c && v) { promos[c] = v; localStorage.setItem('shey_promo_v8', JSON.stringify(promos)); renderAdminUI(); }
+    let c = document.getElementById('promo-code-input').value.toUpperCase();
+    let v = parseInt(document.getElementById('promo-val-input').value);
+    if(c && v) {
+        promos[c] = v;
+        localStorage.setItem('sh_promo_v3', JSON.stringify(promos));
+        renderPromoList();
+        alert("Kode Promo Berhasil Dibuat!");
+    }
 }
 
-function delPromo(c) { delete promos[c]; localStorage.setItem('shey_promo_v8', JSON.stringify(promos)); renderAdminUI(); }
+function renderPromoList() {
+    let list = document.getElementById('admin-promo-list');
+    list.innerHTML = "";
+    for(let k in promos) {
+        list.innerHTML += `<div style="display:flex; justify-content:space-between; background:#f0f0f0; padding:5px; border-radius:5px; margin-bottom:3px;">
+            <span>${k} (-Rp${promos[k]})</span>
+            <button onclick="delPromo('${k}')" style="background:red; color:white; border:none; border-radius:3px; cursor:pointer;">X</button>
+        </div>`;
+    }
+}
 
-function updatePrice() {
-    let base = parseInt(document.getElementById('service').value) || 0;
-    let final = Math.max(0, base - currentDisc);
-    document.getElementById('display-price').innerText = "Rp " + final.toLocaleString('id-ID');
+function delPromo(k) {
+    delete promos[k];
+    localStorage.setItem('sh_promo_v3', JSON.stringify(promos));
+    renderPromoList();
+}
+
+function setPay(m) {
+    currentPay = m;
+    document.getElementById('m-dana').classList.toggle('active', m === 'dana');
+    document.getElementById('m-gopay').classList.toggle('active', m === 'gopay');
+    document.getElementById('pay-label').innerText = m.toUpperCase();
+    document.getElementById('pay-num').innerText = settings[m];
+}
+
+function addProduct() {
+    let tab = document.getElementById('adm-tab').value;
+    let cat = document.getElementById('adm-cat').value;
+    let name = document.getElementById('adm-name').value;
+    let price = parseInt(document.getElementById('adm-price').value);
+    if(!cat || !name || !price) return alert("Lengkapi data produk!");
+    let target = (tab === 'app') ? dataApp : dataKebsos;
+    if(!target[cat]) target[cat] = [];
+    target[cat].push({n:name, p:price});
+    localStorage.setItem('sh_app_v3', JSON.stringify(dataApp));
+    localStorage.setItem('sh_keb_v3', JSON.stringify(dataKebsos));
+    init(); alert("Produk Ditambahkan!");
 }
 
 function switchTab(t) {
     currentTab = t;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-'+t).classList.add('active');
+    document.getElementById('tab-app').classList.toggle('active', t === 'app');
+    document.getElementById('tab-kebsos').classList.toggle('active', t === 'kebsos');
     init();
 }
 
 function init() {
-    const data = (currentTab === 'app') ? dataApp : dataKebsos;
-    const catEl = document.getElementById('category');
+    let data = (currentTab === 'app') ? dataApp : dataKebsos;
+    let catEl = document.getElementById('category');
     catEl.innerHTML = '<option value="">-- Pilih Layanan --</option>';
     Object.keys(data).forEach(k => catEl.add(new Option(k, k)));
-    document.getElementById('pay-num').innerText = payData.dana;
+    document.getElementById('tutup-overlay').style.display = settings.tutup ? "flex" : "none";
     updateService();
 }
 
 function updateService() {
-    const data = (currentTab === 'app') ? dataApp : dataKebsos;
-    const cat = document.getElementById('category').value;
-    const sEl = document.getElementById('service');
+    let data = (currentTab === 'app') ? dataApp : dataKebsos;
+    let cat = document.getElementById('category').value;
+    let sEl = document.getElementById('service');
     sEl.innerHTML = '<option value="">-- Pilih Paket --</option>';
-    if(cat) data[cat].forEach(i => sEl.add(new Option(i.name, i.price)));
+    if(cat) data[cat].forEach(i => sEl.add(new Option(i.n, i.p)));
     updatePrice();
 }
 
-function copyPay() { navigator.clipboard.writeText(document.getElementById('pay-num').innerText).then(() => alert("Disalin!")); }
-function toggleLayanan() { document.getElementById('tutup-overlay').style.display = document.getElementById('status-toggle').checked ? "flex" : "none"; }
+function updatePrice() {
+    let p = parseInt(document.getElementById('service').value) || 0;
+    let final = Math.max(0, p - discVal);
+    document.getElementById('display-price').innerText = "Rp " + final.toLocaleString('id-ID');
+}
 
-function generateInvoice() {
+function copyPay() { navigator.clipboard.writeText(settings[currentPay]).then(() => alert("Nomor Disalin!")); }
+
+function showInvoice() {
     const n = document.getElementById('buyer-name').value;
     const c = document.getElementById('category').value;
     const s = document.getElementById('service').options[document.getElementById('service').selectedIndex]?.text;
-    if(!n || !c || !s || s.includes("--")) return alert("Lengkapi data!");
-    document.getElementById('inv-content').innerHTML = `<b>STRUK ORDER</b><br>Nama: ${n}<br>Produk: ${c}<br>Paket: ${s}<br>Total: ${document.getElementById('display-price').innerText}`;
+    if(!n || !c || !s || s.includes("--")) return alert("Lengkapi Data!");
+    document.getElementById('inv-content').innerHTML = `<b>ORDER INFO</b><br><hr>Nama: ${n}<br>Produk: ${c}<br>Paket: ${s}<br>Diskon: Rp${discVal}<br>Bayar: ${currentPay.toUpperCase()}<br><b>Total: ${document.getElementById('display-price').innerText}</b>`;
     document.getElementById('invoice-modal').style.display = "flex";
 }
 
 function sendToWA() {
-    const text = `*ORDER BARU*%0ANama: ${document.getElementById('buyer-name').value}%0AProduk: ${document.getElementById('category').value}%0APaket: ${document.getElementById('service').options[document.getElementById('service').selectedIndex].text}%0ATotal: ${document.getElementById('display-price').innerText}`;
+    const text = `*ORDER BARU - SHEYYA STORE*%0ANama: ${document.getElementById('buyer-name').value}%0ALayanan: ${document.getElementById('category').value}%0APaket: ${document.getElementById('service').options[document.getElementById('service').selectedIndex].text}%0AMetode: ${currentPay.toUpperCase()}%0ATotal Bayar: ${document.getElementById('display-price').innerText}`;
     window.open(`https://wa.me/62895324866749?text=${text}`);
 }
 
-function resetData() { if(confirm("Reset semua list?")) { localStorage.clear(); location.reload(); } }
-
 init();
+setPay('dana');
 </script>
 </body>
 </html>
