@@ -3,183 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sheyya App Prem</title>
+    <title>sheyya store - full features</title>
     <style>
-        :root { 
-            --primary: #FF8C00; 
-            --bg: #FFF9F0; 
-            --border: #222; 
-        }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; color: #333; }
-        .container { max-width: 450px; margin: auto; background: white; border: 3px solid var(--border); border-radius: 20px; padding: 25px; box-shadow: 10px 10px 0px var(--border); }
+        :root { --primary: #6C5CE7; --bg: #F0F2F5; --border: #222; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; margin: 0; }
         
-        .store-name { text-align: center; font-size: 2em; font-weight: 900; color: var(--primary); text-transform: uppercase; margin-bottom: 5px; text-shadow: 2px 2px 0px var(--border); }
-        .subtitle { text-align: center; font-size: 0.85em; color: #555; margin-bottom: 25px; border-bottom: 2px dashed #ccc; padding-bottom: 15px; }
-        
-        label { font-weight: bold; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase; }
-        select, input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid var(--border); border-radius: 10px; box-sizing: border-box; font-size: 14px; outline: none; }
+        /* ADMIN PANEL */
+        #admin-panel { display: none; width: 100%; max-width: 450px; background: #fff; border: 3px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 5px 5px 0px var(--border); box-sizing: border-box; position: relative; z-index: 3000; }
+        .admin-section { border-top: 2px solid #eee; margin-top: 10px; padding-top: 10px; font-size: 0.8em; }
+        .list-item-admin { display: flex; justify-content: space-between; background: #f9f9f9; padding: 5px 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ddd; align-items: center; }
+        .btn-del { background: #ff4d4d; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; }
 
-        .price-box { background: #F8F8F8; border: 2px solid var(--border); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
-        .price-val { font-size: 1.8em; font-weight: 800; color: var(--primary); }
+        /* TABS */
+        .tab-container { display: flex; width: 100%; max-width: 450px; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 12px; border: 2px solid var(--border); border-radius: 12px; font-weight: bold; cursor: pointer; background: white; box-shadow: 4px 4px 0px var(--border); }
+        .tab-btn.active { background: var(--primary); color: white; transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--border); }
+
+        .container { width: 100%; max-width: 450px; background: white; border: 3px solid var(--border); border-radius: 20px; padding: 25px; box-shadow: 10px 10px 0px var(--border); box-sizing: border-box; position: relative; }
+        #tutup-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 500; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-weight: bold; color: #ff4d4d; border-radius: 20px; }
+
+        .store-name { text-align: center; font-size: 1.6em; font-weight: 900; color: var(--primary); text-transform: lowercase; margin: 0; text-shadow: 2px 2px 0px var(--border); }
+        .subtitle { text-align: center; font-size: 0.8em; color: #555; margin-bottom: 20px; border-bottom: 2px dashed #ccc; padding-bottom: 15px; }
         
-        .btn-order { width: 100%; background: var(--primary); color: white; border: 2px solid var(--border); padding: 18px; border-radius: 12px; font-weight: bold; font-size: 1.1em; cursor: pointer; transition: 0.2s; box-shadow: 0 5px 0 #804600; }
-        .btn-order:disabled { background: #ccc !important; box-shadow: 0 5px 0 #999 !important; cursor: not-allowed; }
+        label { font-weight: bold; font-size: 0.85em; display: block; margin-bottom: 5px; }
+        select, input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid var(--border); border-radius: 10px; box-sizing: border-box; outline: none; background: white; }
         
-        .footer-note { font-size: 0.75em; margin-top: 20px; line-height: 1.5; background: #FFF3E0; padding: 12px; border-radius: 10px; border: 1px solid var(--primary); }
-        option:disabled { color: red; }
+        .price-box { background: #fdfdfd; border: 2px solid var(--border); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .price-val { font-size: 1.8em; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+
+        /* PAYMENT BOX */
+        .pay-info { font-size: 0.75em; background: #eee; padding: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ccc; }
+        .btn-copy { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.8em; }
+
+        .btn-order { width: 100%; background: var(--primary); color: white; border: 2px solid var(--border); padding: 18px; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #3b2e96; }
+
+        #invoice-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 5000; justify-content: center; align-items: center; padding: 20px; }
+        .invoice-card { background: white; border: 3px solid var(--border); border-radius: 15px; width: 100%; max-width: 350px; padding: 20px; box-shadow: 10px 10px 0px var(--border); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="store-name">Sheyya App Prem</div>
-    <p class="subtitle">Best Premium Apps Services & Low Price</p>
-
-    <label>📂 Pilih Kategori Aplikasi</label>
-    <select id="category" onchange="updateService()">
-        <option value="">-- Pilih Aplikasi --</option>
-    </select>
-
-    <label>🎯 Pilih Layanan / Durasi</label>
-    <select id="service" onchange="updatePrice()">
-        <option value="">-- Pilih Durasi --</option>
-    </select>
-
-    <div class="price-box">
-        <label>Total Pembayaran</label>
-        <div id="display-price" class="price-val">Rp 0</div>
+<div id="admin-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong>🛠️ FULL ADMIN CONTROL</strong>
+        <button onclick="document.getElementById('admin-panel').style.display='none'">X</button>
+    </div>
+    
+    <div class="admin-section">
+        <label>Atur Nomor Pembayaran:</label>
+        <input type="text" id="admin-dana" placeholder="Nomor DANA" onkeyup="updatePayAdmin()" style="padding:8px; margin-bottom:5px;">
+        <input type="text" id="admin-gopay" placeholder="Nomor GOPAY" onkeyup="updatePayAdmin()" style="padding:8px; margin-bottom:5px;">
+        <div style="font-size: 0.9em;">
+            Aktifkan: 
+            <button onclick="setActivePay('DANA')">DANA</button>
+            <button onclick="setActivePay('GOPAY')">GOPAY</button>
+        </div>
     </div>
 
-    <label>💳 Metode Pembayaran</label>
-    <select id="payment">
-        <option value="DANA">DANA</option>
-        <option value="GOPAY">GOPAY</option>
-    </select>
+    <div class="admin-section">
+        <label>Tambah Produk/Paket:</label>
+        <select id="new-prod-tab" onchange="renderAdminUI()" style="padding:5px; height:35px; margin-bottom:5px;">
+            <option value="app">📱 APPS</option>
+            <option value="kebsos">🚀 KEBSOS</option>
+        </select>
+        <select id="select-existing-cat" style="padding:5px; height:35px; margin-bottom:5px;"><option value="NEW">-- BUAT KATEGORI BARU --</option></select>
+        <input type="text" id="new-prod-cat" placeholder="Nama Kategori Baru" style="padding:8px; margin-bottom:5px;">
+        <input type="text" id="new-prod-name" placeholder="Nama Paket" style="padding:8px; margin-bottom:5px;">
+        <input type="number" id="new-prod-price" placeholder="Harga" style="padding:8px; margin-bottom:5px;">
+        <button onclick="addNewProduct()" style="width:100%; background:#2ecc71; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">SIMPAN</button>
+    </div>
 
-    <label>👤 Data Pemesan</label>
-    <input type="text" id="buyer-name" placeholder="Nama Lengkap">
-    <input type="text" id="buyer-email" placeholder="Username / Email Apps">
-    <input type="number" id="buyer-phone" placeholder="Nomor WhatsApp (Aktif)">
+    <div class="admin-section">
+        <label><input type="checkbox" id="status-toggle" onchange="toggleLayanan()"> ⛔ TUTUP TOKO</label>
+        <div id="stock-manager" style="max-height:80px; overflow-y:auto; border:1px solid #eee; padding:5px; margin-top:5px;"></div>
+    </div>
+    <button onclick="resetData()" style="width:100%; background:#ff4d4d; color:white; border:none; padding:5px; margin-top:10px; border-radius:5px; font-size:0.7em; cursor:pointer;">⚠️ RESET DATA</button>
+</div>
 
-    <button id="btn-order" class="btn-order" onclick="sendOrder()">BELI SEKARANG</button>
+<div class="tab-container">
+    <button id="tab-app" class="tab-btn active" onclick="switchTab('app')">📱 APPS</button>
+    <button id="tab-kebsos" class="tab-btn" onclick="switchTab('kebsos')">🚀 KEBSOS</button>
+</div>
 
-    <div class="footer-note">
-        <b>Instruksi Pembayaran:</b><br>
-        1. Transfer sesuai nominal ke nomor: <b>0895324866749</b><br>
-        2. Klik tombol di atas untuk konfirmasi WhatsApp<br>
-        3. <b>Wajib</b> kirim bukti screenshot transfer di chat.
+<div class="container">
+    <div id="tutup-overlay">😴<br>SHEY SEDANG ISTIRAHAT</div>
+    <div class="store-name">sheyya store</div>
+    <p class="subtitle" id="display-subtitle">Official App Premium</p>
+
+    <label>📺 Pilih Layanan</label>
+    <select id="category" onchange="updateService()"></select>
+    
+    <label>💎 Pilih Paket</label>
+    <select id="service" onchange="updatePrice()"></select>
+
+    <div class="price-box">
+        <div id="display-price" class="price-val">Rp 0</div>
+        <div class="pay-info">
+            <span>💳 <b id="pay-label">DANA</b>: <span id="pay-num">0895324866749</span></span>
+            <button class="btn-copy" onclick="copyPay()">SALIN</button>
+        </div>
+    </div>
+
+    <input type="text" id="buyer-name" placeholder="Nama Lengkap Pembeli">
+    <input type="text" id="redeem-code" placeholder="Kode Promo / Sandi Admin" onkeyup="checkCodes()">
+
+    <button class="btn-order" onclick="generateInvoice()">ORDER SEKARANG</button>
+</div>
+
+<div id="invoice-modal">
+    <div class="invoice-card">
+        <div id="inv-content" style="font-size:0.85em; line-height:1.8;"></div>
+        <button class="btn-order" onclick="sendToWA()" style="margin-top:15px; padding:12px;">KIRIM KE WHATSAPP</button>
+        <button onclick="document.getElementById('invoice-modal').style.display='none'" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Batal</button>
     </div>
 </div>
 
 <script>
-// TIPS: Tambahkan tanda * di depan nama kalau STOK HABIS (Contoh: "*Netflix")
-const dataProduk = {
-    "Netflix": [
-        {*name: "Netflix 1P2U", price: 23200},
-        {*name: "Netflix 1P1U", price: 33200},
-        {name: "Netflix 1 Minggu", price: 14300}
-    ],
-    "Viu": [{name: "Viu Premium Lifetime", price: 2000}],
-    "Youku": [{name: "Youku Sharing 1 Bulan", price: 10340}],
-    "Prime Video": [{name: "Prime Video Private 1 Bulan", price: 8200}],
-    "Capcut": [
-        {name: "Capcut Sharing 1 Bulan Promo", price: 3700},
-        {name: "Capcut Sharing 1 Bulan", price: 4500},
-        {name: "Capcut Sharing 6 Bulan", price: 7300},
-        {name: "Capcut Sharing 12 Bulan", price: 10000},
-        {name: "Capcut Private 1 Bulan", price: 5320},
-        {name: "Capcut Private 6 Bulan", price: 17000},
-        {name: "Capcut Private 12 Bulan", price: 26500}
-    ],
-    "Canva": [
-        {name: "Canva Member 1 Bulan", price: 3000},
-        {name: "Canva Member 1 Tahun", price: 5200},
-        {name: "Canva Owner 1 Bulan", price: 6000},
-        {name: "Canva Owner 1 Tahun", price: 27400}
-    ],
-    "Bstation": [
-        {name: "Bstation Sharing 1 Bulan", price: 6000},
-        {name: "Bstation Private 1 Bulan", price: 32000}
-    ],
-    "YouTube": [{name: "YouTube Indplan 1 Bulan", price: 13300}],
-    "WeTV": [
-        {name: "WeTV Sharing 1 Bulan 8U", price: 6000},
-        {name: "WeTV Sharing 1 Bulan 5U", price: 9000},
-        {name: "WeTV Private 1 Bulan", price: 23000}
-    ],
-    "Vidio": [
-        {name: "Vidio Platinum Sharing", price: 20000},
-        {name: "Vidio Platinum Private", price: 37000}
-    ],
-    "Alight Motion": [
-        {name: "AM Private 1 Tahun", price: 2500},
-        {name: "AM Private 2 Tahun", price: 5000}
-    ],
-    "Picsart": [
-        {name: "Picsart Sharing 1 Bulan", price: 4000},
-        {name: "Picsart Private 1 Bulan", price: 7320}
-    ],
-    "Crunchyroll": [{name: "Crunchyroll Sharing 35 Hari", price: 6000}],
-    "HBO Max": [
-        {name: "HBO Max Sharing 1 Bulan", price: 17000},
-        {name: "HBO Max Standar Private 1 Bulan", price: 80000}
-    ],
-    "VSCO": [{name: "VSCO Plus Andro/iOS 1 Tahun", price: 8000}]
+// DATA AWAL
+const defaultApp = {
+    "Netflix": [{name: "1p2u", price: 26200}, {name: "1p1u", price: 35200}, {name: "1 Minggu", price: 15600}],
+    "Capcut": [{name: "Sharing 1 Bln Promo", price: 4300}, {name: "Private 1 Bln", price: 8320}],
+    "Viu": [{name: "Premium Lifetime", price: 2500}]
 };
+const defaultKebsos = { "TikTok Followers": [{name: "100 Followers", price: 3950}] };
 
-const catEl = document.getElementById('category');
-const servEl = document.getElementById('service');
-const priceEl = document.getElementById('display-price');
-const btnEl = document.getElementById('btn-order');
+let dataApp = JSON.parse(localStorage.getItem('shey_app_v3')) || defaultApp;
+let dataKebsos = JSON.parse(localStorage.getItem('shey_kebsos_v3')) || defaultKebsos;
+let payData = JSON.parse(localStorage.getItem('shey_pay')) || { active: 'DANA', dana: '0895324866749', gopay: '0895324866749' };
+let currentTab = 'app';
 
-Object.keys(dataProduk).sort().forEach(cat => {
-    catEl.add(new Option(cat, cat));
-});
+function checkCodes() {
+    const input = document.getElementById('redeem-code').value.toUpperCase();
+    if(input === "SHEYYA221") {
+        document.getElementById('admin-panel').style.display = "block";
+        document.getElementById('redeem-code').value = "";
+        document.getElementById('admin-dana').value = payData.dana;
+        document.getElementById('admin-gopay').value = payData.gopay;
+        renderAdminUI();
+    }
+}
+
+function updatePayAdmin() {
+    payData.dana = document.getElementById('admin-dana').value;
+    payData.gopay = document.getElementById('admin-gopay').value;
+    savePay();
+}
+
+function setActivePay(type) {
+    payData.active = type;
+    savePay();
+    alert("Metode pembayaran diubah ke " + type);
+}
+
+function savePay() {
+    localStorage.setItem('shey_pay', JSON.stringify(payData));
+    document.getElementById('pay-label').innerText = payData.active;
+    document.getElementById('pay-num').innerText = payData.active === 'DANA' ? payData.dana : payData.gopay;
+}
+
+function copyPay() {
+    const num = document.getElementById('pay-num').innerText;
+    navigator.clipboard.writeText(num).then(() => alert("Nomor " + payData.active + " berhasil disalin!"));
+}
+
+// FUNGSI INTI LAINNYA
+function addNewProduct() {
+    const tab = document.getElementById('new-prod-tab').value;
+    const existingCat = document.getElementById('select-existing-cat').value;
+    const newCatInput = document.getElementById('new-prod-cat').value.trim();
+    const name = document.getElementById('new-prod-name').value.trim();
+    const price = parseInt(document.getElementById('new-prod-price').value);
+    let finalCat = (existingCat === "NEW") ? newCatInput : existingCat;
+    if(!finalCat || !name || !price) return alert("Lengkapi data!");
+    let targetData = (tab === 'app') ? dataApp : dataKebsos;
+    if(!targetData[finalCat]) targetData[finalCat] = [];
+    targetData[finalCat].push({name: name, price: price});
+    saveAndRefresh();
+}
+
+function saveAndRefresh() {
+    localStorage.setItem('shey_app_v3', JSON.stringify(dataApp));
+    localStorage.setItem('shey_kebsos_v3', JSON.stringify(dataKebsos));
+    init(); renderAdminUI();
+}
+
+function renderAdminUI() {
+    const tab = document.getElementById('new-prod-tab').value;
+    const data = (tab === 'app') ? dataApp : dataKebsos;
+    const sel = document.getElementById('select-existing-cat');
+    sel.innerHTML = '<option value="NEW">-- BUAT KATEGORI BARU --</option>';
+    Object.keys(data).forEach(cat => sel.add(new Option(cat, cat)));
+    const stockEl = document.getElementById('stock-manager');
+    stockEl.innerHTML = "<b>Kelola Kategori:</b><br>";
+    Object.keys(data).forEach(cat => {
+        stockEl.innerHTML += `<div class="list-item-admin"><span>${cat}</span><button class="btn-del" onclick="deleteCat('${cat}')">Hapus</button></div>`;
+    });
+}
+
+function deleteCat(cat) {
+    if(confirm("Hapus "+cat+"?")) {
+        if(document.getElementById('new-prod-tab').value === 'app') delete dataApp[cat];
+        else delete dataKebsos[cat];
+        saveAndRefresh();
+    }
+}
+
+function switchTab(t) {
+    currentTab = t;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-'+t).classList.add('active');
+    init();
+}
+
+function init() {
+    const data = currentTab === 'app' ? dataApp : dataKebsos;
+    const catEl = document.getElementById('category');
+    catEl.innerHTML = '<option value="">-- Pilih Layanan --</option>';
+    Object.keys(data).forEach(cat => catEl.add(new Option(cat, cat)));
+    savePay();
+}
 
 function updateService() {
-    servEl.innerHTML = '<option value="">-- Pilih Durasi --</option>';
-    if (catEl.value) {
-        dataProduk[catEl.value].forEach(item => {
-            let optName = item.name;
-            let opt = new Option(optName, item.price);
-            if(optName.startsWith('*')) {
-                opt.text = optName.replace('*', '') + " (HABIS)";
-                opt.disabled = true;
-            }
-            servEl.add(opt);
-        });
-    }
+    const data = currentTab === 'app' ? dataApp : dataKebsos;
+    const cat = document.getElementById('category').value;
+    const servEl = document.getElementById('service');
+    servEl.innerHTML = '<option value="">-- Pilih Paket --</option>';
+    if(cat) data[cat].forEach(i => servEl.add(new Option(i.name, i.price)));
     updatePrice();
 }
 
 function updatePrice() {
-    const price = servEl.value;
-    priceEl.innerText = price ? "Rp " + parseInt(price).toLocaleString('id-ID') : "Rp 0";
-    
-    const selected = servEl.options[servEl.selectedIndex];
-    if (selected && selected.disabled) {
-        btnEl.disabled = true;
-        btnEl.innerText = "STOK HABIS";
-    } else {
-        btnEl.disabled = false;
-        btnEl.innerText = "BELI SEKARANG";
-    }
+    let base = parseInt(document.getElementById('service').value) || 0;
+    document.getElementById('display-price').innerText = "Rp " + base.toLocaleString('id-ID');
 }
 
-function sendOrder() {
-    const serviceName = servEl.options[servEl.selectedIndex]?.text;
-    const name = document.getElementById('buyer-name').value;
-    const email = document.getElementById('buyer-email').value;
-    const phone = document.getElementById('buyer-phone').value;
-
-    if (!catEl.value || !servEl.value || !name || !email || !phone) {
-        alert("Lengkapi data dulu ya!");
-        return;
-    }
-
-    const format = `Halo Sheyya, saya mau order!\n\nNama: ${name}\nProduk: ${serviceName}\nTotal: ${priceEl.innerText}\nEmail: ${email}\nWA: ${phone}`;
-    window.open(`https://wa.me/62895324866749?text=${encodeURIComponent(format)}`, '_blank');
+function generateInvoice() {
+    const n = document.getElementById('buyer-name').value;
+    const c = document.getElementById('category').value;
+    const s = document.getElementById('service').options[document.getElementById('service').selectedIndex]?.text;
+    if(!n || !c || !s || s.includes("--")) return alert("Data belum lengkap!");
+    document.getElementById('inv-content').innerHTML = `<b>STRUK ORDER</b><br>Nama: ${n}<br>Produk: ${c}<br>Paket: ${s}<br>Bayar ke: ${payData.active}<br>Total: ${document.getElementById('display-price').innerText}`;
+    document.getElementById('invoice-modal').style.display = "flex";
 }
+
+function sendToWA() {
+    const text = `*ORDER BARU - SHEYYA STORE*%0ANama: ${document.getElementById('buyer-name').value}%0AProduk: ${document.getElementById('category').value}%0ATotal: ${document.getElementById('display-price').innerText}%0AMetode: ${payData.active}`;
+    window.open(`https://wa.me/62895324866749?text=${text}`);
+}
+
+function toggleLayanan() {
+    document.getElementById('tutup-overlay').style.display = document.getElementById('status-toggle').checked ? "flex" : "none";
+}
+
+init();
 </script>
 </body>
 </html>
+
